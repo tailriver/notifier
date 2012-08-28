@@ -11,7 +11,7 @@ sub new {
 	my($class, $arg) = @_;
 	$class = ref $class || $class;
 	my %dispatcher;
-	foreach my $media (keys $arg) {
+	foreach my $media ('Echo', keys $arg) {
 		my $module = "Dispatcher::$media";
 		Module::Load::load $module;
 		$dispatcher{$media} = $module->new($arg->{$media});
