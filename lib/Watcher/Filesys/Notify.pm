@@ -1,10 +1,10 @@
-package Plugin::Filesys::Notify;
+package Watcher::Filesys::Notify;
 
 use strict;
 use warnings;
 use 5.010;
 
-use parent qw(Plugin);
+use parent qw(Watcher);
 
 use AnyEvent;
 use AnyEvent::Filesys::Notify;
@@ -14,7 +14,7 @@ my $default_interval = 2.0;
 my $default_filter   = sub { shift !~ /\.(DS_Store|swp|tmp)$/ };
 
 sub new {
-	my($class, $dispatcher, $arg) = @_;
+	my($class, $notifier, $arg) = @_;
 	$class = ref $class || $class;
 	my $self = bless {
 		watch      => $arg->{watch},
@@ -22,7 +22,7 @@ sub new {
 		queue      => [],
 		idle       => undef,
 	}, $class;
-	$self->set_dispatcher($dispatcher, $arg->{media});
+	$self->set_notifier($notifier, $arg->{media});
 	return $self;
 }
 

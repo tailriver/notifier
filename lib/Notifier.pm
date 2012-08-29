@@ -1,4 +1,4 @@
-package Dispatcher;
+package Notifier;
 
 use strict;
 use warnings;
@@ -10,13 +10,13 @@ use Module::Load;
 sub new {
 	my($class, $arg) = @_;
 	$class = ref $class || $class;
-	my %dispatcher;
+	my %notifier;
 	foreach my $media ('Echo', keys $arg) {
-		my $module = "Dispatcher::$media";
+		my $module = __PACKAGE__. "::$media";
 		Module::Load::load $module;
-		$dispatcher{$media} = $module->new($arg->{$media});
+		$notifier{$media} = $module->new($arg->{$media});
 	}
-	return bless \%dispatcher, $class;
+	return bless \%notifier, $class;
 }
 
 sub send {

@@ -1,4 +1,4 @@
-package Dispatcher::Echo;
+package Notifier::Echo;
 
 use strict;
 use warnings;

@@ -7,18 +7,18 @@ use Module::Load;
 use YAML;
 
 use lib qw(lib);
-use Dispatcher;
+use Notifier;
 
 my $config_yaml = $ARGV[0] || 'config.yaml';
 my $conf = YAML::LoadFile($config_yaml);
 
-my $dispatcher = Dispatcher->new($conf->{dispatcher});
+my $notifier = Notifier->new($conf->{Notifier});
 
 my @children;
-foreach my $p (keys %{$conf->{plugin}}) {
-	my $module = "Plugin::$p";
+foreach my $p (keys %{$conf->{Watcher}}) {
+	my $module = "Watcher::$p";
 	Module::Load::load $module;
-	my $child = $module->new($dispatcher, $conf->{plugin}{$p});
+	my $child = $module->new($notifier, $conf->{Watcher}{$p});
 	$child->init;
 	push @children, $child;
 }
